@@ -1,5 +1,8 @@
 pipeline {
     agent any 
+    tools {
+        maven 'maven3'
+    }
     stages {
         stage('Compile and Clean') { 
             steps {
@@ -14,7 +17,7 @@ pipeline {
             
              post {
                 always {
-                    junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'   
+                    junit allowEmptyResults: true, testResults: 'target/*.xml'   
                 }
             }     
         }
