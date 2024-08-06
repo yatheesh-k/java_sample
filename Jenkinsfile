@@ -27,7 +27,7 @@ pipeline {
 
         stage('mvn build') {
             steps {
-                sh 'mvn run build'
+                sh 'mvn build'
             }
         }
         stage('Zip Dist Directory') {
