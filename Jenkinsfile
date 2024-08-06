@@ -1,4 +1,4 @@
-pipeline {
+   pipeline {
     agent any
     tools {
         maven 'mvn'
@@ -6,38 +6,28 @@ pipeline {
 
     environment {
         SONAR_URL = 'http://13.235.50.141:9000/'
-        SONAR_PROJECT_KEY = 'java_project' // Removed space
-        SONAR_TOKEN = credentials('sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6')
+        SONAR_PROJECT_KEY = 'java_project'
+        SONAR_TOKEN = credentials('sonar-token')
         NEXUS_URL = 'http://15.207.108.19:8081/'
-        NEXUS_USERNAME = credentials('admin')
-        NEXUS_PASSWORD = credentials('nexus')
+        NEXUS_USERNAME = credentials('nexus-username')
+        NEXUS_PASSWORD = credentials('nexus-password')
     }
+
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/yatheesh-k/java_sample.git'
-            }
-        }
-
-        stage('mvn install') {
-            steps {
-                sh '''
-                ls -ltr
-                mvn install
-                '''
+                git branch: 'main', url: 'https://github.com/your-repo/java_sample.git'
             }
         }
 
         stage('Build') {
             steps {
-                // Build the project using Maven
                 sh 'mvn clean install'
             }
         }
-        
+
         stage('Test') {
             steps {
-                // Run tests
                 sh 'mvn test'
             }
         }
@@ -47,24 +37,22 @@ pipeline {
                 sh "mvn sonar:sonar -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectKey=${SONAR_PROJECT_KEY}"
             }
         }
-    
 
-                
-        
-         stage('Package') {
+        stage('Publish to Nexus') {
             steps {
-                sh 'mvn package'
-               }
-            }
-
-        stage('Upload to Nexus') {
-            steps {
-                sh "curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file target/backend.jar $NEXUS_URL/repository/releases/com/yourcompany/backend/backend.jar"
+                sh '''
+                mvn deploy:deploy-file \
+                    -Durl=${NEXUS_URL}/repository/maven-releases/ \
+                    -DrepositoryId=nexus-releases \
+                    -Dfile=target/your-artifact.jar \
+                    -DgroupId=com.example \
+                    -DartifactId=your-artifact \
+                    -Dversion=1.0.0
+                '''
             }
         }
-
-  }	
-       post {
+   }
+   post {
         always {
             // cleanup steps, if any
             sh 'echo "Always do cleanup actions here"'
