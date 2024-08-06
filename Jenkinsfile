@@ -25,9 +25,16 @@ pipeline {
              }
          }
 
-        stage('mvn build') {
+        stage('build') {
             steps {
-                sh 'mvn build'
+	      // Build the project using Maven 
+                sh 'mvn clean install'
+            }
+        }
+	stage('Test') {
+            steps {
+                // Run tests
+                sh 'mvn test'
             }
         }
         stage('Zip Dist Directory') {
