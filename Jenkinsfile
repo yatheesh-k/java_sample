@@ -7,10 +7,10 @@
     environment {
         SONAR_URL = 'http://13.235.50.141:9000/'
         SONAR_PROJECT_KEY = 'java_project'
-        SONAR_TOKEN = credentials('sonar-token')
+        SONAR_TOKEN = credentials('retail_token')
         NEXUS_URL = 'http://15.207.108.19:8081/'
-        NEXUS_USERNAME = credentials('nexus-username')
-        NEXUS_PASSWORD = credentials('nexus-password')
+        NEXUS_USERNAME = credentials('admin')
+        NEXUS_PASSWORD = credentials('nexus')
     }
 
     stages {
