@@ -15,7 +15,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 //git 'https://github.com/yatheesh-k/arzoo01.git'
-                git branch: 'main', url: 'https://github.com/yatheesh-k/java_sample.git
+                git branch: 'main', url:'https://github.com/yatheesh-k/java_sample.git'
 
                 }
 	     }
