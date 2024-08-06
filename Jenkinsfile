@@ -3,10 +3,15 @@ pipeline {
     tools {
          maven 'mvn'
 	} 
+    
     environment {
-        NEXUS_URL = 'http://13.127.118.96:8081/repository/javaproject/'
-        NEXUS_CREDENTIALS_ID = 'nexus' // ID of the stored credentials in Jenkins
-    }
+        SONAR_URL = 'http://13.200.250.223:9000'
+        SONAR_PROJECT_KEY = 'java project'
+        SONAR_TOKEN = credentials('sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6 ')
+        NEXUS_URL = 'http://13.127.118.96:8081'
+        NEXUS_USERNAME = credentials('admin')
+        NEXUS_PASSWORD = credentials('nexus')
+      }
     stages {
         stage('Clone Repository') {
             steps {
@@ -37,46 +42,26 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Zip Dist Directory') {
+        
+         stage('SonarQube Analysis') {
             steps {
-                sh '''
-                zip -r dist-${BUILD_ID}.zip dist
-                '''
-            }
-        }
-        stage('SonarQube analysis') {
-            environment {
-              SCANNER_HOME = tool 'sonar-scanner'
-            }
+                sh 'mvn sonar:sonar -Dsonar.host.url=http://13.200.250.223:9000/ -Dsonar.login='sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6 ' -Dsonar.projectKey=java project'
+               }
+           }
+                
+        
+         stage('Package') {
             steps {
-            withSonarQubeEnv('sonar') {
-                    sh "${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=java project -Dsonar.sources=src -Dsonar.host.url=http://13.200.250.223:9000/ -Dsonar.login=sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6 "
-                }
+                sh 'mvn package'
+               }
             }
-        }
-        stage('Upload Artifacts to Nexus') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-                    script {
-                        def file = "dist-${env.BUILD_ID}.zip"
-                        // Upload the file using HTTP Request Plugin
-                        httpRequest(
-                            httpMode: 'PUT',
-                            acceptType: 'APPLICATION_JSON',
-                            contentType: 'APPLICATION_OCTETSTREAM',
-                            consoleLogResponseBody: true,
-                            url: "${env.NEXUS_URL}${file}",
-                            authentication: 'nexus',
-                            requestBody: readFile(file)
-                        )
-                        sh 'rm -rf dist-${BUILD_ID}.zip'
-                    }
 
-                }
-
+        stage('Upload to Nexus') {
+            steps {
+                sh 'curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file target/backend.jar $NEXUS_URL/repository/releases/com/yourcompany/backend/backend.jar'
             }
         }
-    }
+
 
 
     post {
