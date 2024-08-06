@@ -5,10 +5,10 @@ pipeline {
 	} 
     
     environment {
-        SONAR_URL = 'http://13.200.250.223:9000'
+        SONAR_URL = 'http://13.235.50.141:9000/'
         SONAR_PROJECT_KEY = 'java project'
         SONAR_TOKEN = credentials('sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6 ')
-        NEXUS_URL = 'http://13.127.118.96:8081'
+        NEXUS_URL = 'http://15.207.108.19:8081/'
         NEXUS_USERNAME = credentials('admin')
         NEXUS_PASSWORD = credentials('nexus')
       }
@@ -45,7 +45,7 @@ pipeline {
         
          stage('SonarQube Analysis') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.host.url=http://13.200.250.223:9000/ -Dsonar.login='sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6 ' -Dsonar.projectKey=java project'
+                sh 'mvn sonar:sonar -Dsonar.host.url=http://13.235.50.141:9000/ -Dsonar.login='sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6' -Dsonar.projectKey=java project'
                }
            }
                 
