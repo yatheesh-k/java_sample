@@ -1,55 +1,54 @@
 pipeline {
     agent any
     tools {
-         maven 'mvn'
-	} 
-    
+        maven 'mvn'
+    }
+
     environment {
         SONAR_URL = 'http://13.235.50.141:9000/'
-        SONAR_PROJECT_KEY = 'java project'
-        SONAR_TOKEN = credentials('sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6 ')
+        SONAR_PROJECT_KEY = 'java_project' // Removed space
+        SONAR_TOKEN = credentials('sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6')
         NEXUS_URL = 'http://15.207.108.19:8081/'
         NEXUS_USERNAME = credentials('admin')
         NEXUS_PASSWORD = credentials('nexus')
-      }
+    }
     stages {
         stage('Clone Repository') {
             steps {
-                //git 'https://github.com/yatheesh-k/java_sample.git'
                 git branch: 'main', url: 'https://github.com/yatheesh-k/java_sample.git'
             }
         }
 
         stage('mvn install') {
             steps {
-
                 sh '''
-                 ls -ltr
+                ls -ltr
                 mvn install
-                 '''
-             }
-         }
+                '''
+            }
+        }
 
-        stage('build') {
+        stage('Build') {
             steps {
-	      // Build the project using Maven 
+                // Build the project using Maven
                 sh 'mvn clean install'
             }
         }
-	stage('Test') {
+        
+        stage('Test') {
             steps {
                 // Run tests
                 sh 'mvn test'
             }
         }
-        
-         stage('SonarQube Analysis') {
+
+        stage('SonarQube Analysis') {
             steps {
-                sh "mvn sonar:sonar -Dsonar.host.url=http://13.235.50.141:9000/ -Dsonar.login=sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6 -Dsonar.projectKey=java_project"
+                sh "mvn sonar:sonar -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectKey=${SONAR_PROJECT_KEY}"
+            }
+        }
+    
 
-
-               }
-           }
                 
         
          stage('Package') {
@@ -64,9 +63,8 @@ pipeline {
             }
         }
 
-}
-
-    post {
+  }	
+       post {
         always {
             // cleanup steps, if any
             sh 'echo "Always do cleanup actions here"'
