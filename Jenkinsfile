@@ -45,7 +45,7 @@ pipeline {
         
          stage('SonarQube Analysis') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.host.url=http://13.235.50.141:9000/ -Dsonar.login='sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6' -Dsonar.projectKey=java project'
+                sh 'mvn sonar:sonar -Dsonar.host.url=http://13.235.50.141:9000/ -Dsonar.login=sqp_dbd67b99e32634f4b5808a28ace6d937f2e3c6c6 -Dsonar.projectKey=java project'
                }
            }
                 
