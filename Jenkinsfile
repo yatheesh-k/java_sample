@@ -18,10 +18,14 @@ pipeline {
              }
          }
 
-        stage('Build') {
-            steps {
+        //stage('Build') {
+          //  steps {
                     // Use a valid Maven goal
-                    sh 'mvn clean package'
+            //        sh 'mvn clean package'
+       stage('Build') {
+            steps {
+                dir("/var/lib/jenkins/workspace/demopipelinetask/my-app") {
+                sh 'mvn -B -DskipTests clean package'
                 }
             }
         
