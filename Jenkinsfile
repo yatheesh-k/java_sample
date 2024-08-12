@@ -28,7 +28,7 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
                 }
             }
-       }
+       
           stage('Zip Dist Directory') {
             steps {
                 sh '''
