@@ -29,7 +29,7 @@ pipeline {
           stage('Zip Dist Directory') {
             steps {
                 sh '''
-                // sh 'zip -r dist-${BUILD_ID}.zip dist'
+                 sh 'zip -r dist-${BUILD_ID}.zip dist'
                   dir("/var/lib/jenkins/workspace/demopipelinetask/my-app") {
                   sh 'mvn -B -DskipTests clean package'
                 '''
