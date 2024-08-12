@@ -20,7 +20,7 @@ pipeline {
 
         stage('mvn build') {
             steps {
-                sh 'mvn run build'
+                sh 'mvn re-run build'
             }
         }
         
