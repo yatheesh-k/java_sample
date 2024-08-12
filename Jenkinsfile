@@ -1,31 +1,44 @@
 pipeline {
     agent any
-    tool{
-    maven 'mvn'
-    }
-    environment {
-        NEXUS_URL = 'http://65.0.4.51:8081/'
-        NEXUS_CREDENTIALS_ID = 'nexus' // ID of the stored credentials in Jenkins
-    }
+
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                //git 'https://github.com/yatheesh-k/arzoo01.git'
-                git branch: 'main', url: 'https://github.com/yatheesh-k/java_sample.git'
+                git 'https://github.com/your-repo/your-project.git'
             }
         }
-
-         stage('Build') {
+        stage('Build') {
             steps {
-                sh 'mvn clean install'
-
-             }
-         }
-  
-        stage(' build') {
-            steps {
-                sh 'mvn run build'
+                script {
+                    def mvnHome = tool name: 'Mvn', type: 'maven'
+                    withMaven(maven: 'Mvn') {
+                        sh "${mvnHome}/bin/mvn clean install"
+                    }
+                }
             }
         }
-      }
-    }  
+        stage('Test') {
+            steps {
+                script {
+                    def mvnHome = tool name: 'M3', type: 'maven'
+                    withMaven(maven: 'M3') {
+                        sh "${mvnHome}/bin/mvn test"
+                    }
+                }
+            }
+        }
+    }
+ post {
+        always {
+            // cleanup steps, if any
+            sh 'echo "Always do cleanup actions here"'
+        }
+        success {
+            sh 'echo "Pipeline succeeded"'
+        }
+        failure {
+            sh 'echo "pipeline failed"'
+        }
+    }
+}
+}
