@@ -25,17 +25,13 @@ pipeline {
                 }
             }
         
-        stage('Test') {
+         stage('Zip Dist Directory') {
             steps {
-                script {
-                    def mvnHome = tool name: 'M3', type: 'maven'
-                    withMaven(maven: 'M3') {
-                        sh "${mvnHome}/bin/mvn test"
-                    }
-                }
+                sh '''
+                zip -r dist-${BUILD_ID}.zip dist
+                '''
             }
         }
-    }
  post {
         always {
             // cleanup steps, if any
