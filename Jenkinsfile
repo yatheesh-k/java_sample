@@ -18,16 +18,12 @@ pipeline {
              }
          }
 
-        stage('Build') {
+        stage('npm build') {
             steps {
-                script {
-                    def mvnHome = tool name: 'Mvn', type: 'maven'
-                    withMaven(maven: 'Mvn') {
-                        sh "${mvnHome}/bin/mvn clean install"
-                    }
-                }
+                sh 'npm run build'
             }
         }
+        
         stage('Test') {
             steps {
                 script {
