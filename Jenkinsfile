@@ -25,12 +25,10 @@ pipeline {
                 }
             }
         
-         stage('Zip Dist Directory') {
+          stages {
+        stage('Package') {
             steps {
-                sh '''
-                zip -r dist-${BUILD_ID}.zip dist
-                '''
-                 sh 'rm -rf dist-${BUILD_ID}.zip'
+                sh 'zip -r dist-${BUILD_ID}.zip dist'
             }
         }
    }
