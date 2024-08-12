@@ -32,7 +32,9 @@ pipeline {
                 '''
             }
         }
-post {
+   }
+
+     post {
         always {
             // cleanup steps, if any
             sh 'echo "Always do cleanup actions here"'
@@ -44,5 +46,4 @@ post {
             sh 'echo "pipeline failed"'
         }
     }
-
 }
