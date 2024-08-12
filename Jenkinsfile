@@ -11,17 +11,6 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/yatheesh-k/java_sample.git'
             }
         }
-
-        stage('mvn install'){
-            steps {
-                 
-                sh '''
-                 ls -ltr
-                 mvn install
-                 '''
-             }
-         }
-        
    
        stage('Build') {
             steps {
