@@ -18,9 +18,9 @@ pipeline {
              }
          }
 
-        stage('npm build') {
+        stage('mvn build') {
             steps {
-                sh 'npm run build'
+                sh 'mvn run build'
             }
         }
         
