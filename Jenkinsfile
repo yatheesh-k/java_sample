@@ -53,20 +53,23 @@ pipeline {
         }
 
         stage('Upload Artifacts to Nexus') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-                    script {
-                        def file = "dist-${env.BUILD_ID}.zip"
-                        // Upload the file using HTTP Request Plugin
-                        httpRequest(
-                            httpMode: 'PUT',
-                            acceptType: 'APPLICATION_JSON',
-                            contentType: 'APPLICATION_OCTETSTREAM',
-                            consoleLogResponseBody: true,
-                            url: "${env.NEXUS_URL}${file}",
-                            authentication: 'nexus',
-                            requestBody: readFile(file)
-                        )
+    steps {
+        withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+            script {
+                def file = "dist-${env.BUILD_ID}.zip"
+                // Check if the file exists before attempting to upload
+                if (fileExists(file)) {
+                    // Upload the file using HTTP Request Plugin
+                    def response = httpRequest(
+                        httpMode: 'PUT',
+                        acceptType: 'APPLICATION_JSON',
+                        contentType: 'APPLICATION_OCTETSTREAM',
+                        consoleLogResponseBody: true,
+                        url: "${env.NEXUS_URL}${file}",
+                        authentication: env.NEXUS_CREDENTIALS_ID,
+                        requestBody: readFile(file)
+                    )
+                        
                         sh 'rm -rf dist-${env.BUILD_ID}.zip'
                     }
                 }
