@@ -20,6 +20,14 @@ pipeline {
                 }
             }
         }
+        stage('Package') {
+            steps {
+                script {
+                    // Maven package with specific goals
+                    sh "${MAVEN_HOME}/bin/mvn package"
+                }
+            }
+        }
         stage('Zip Dist Directory') {
             steps {
                 sh '''
