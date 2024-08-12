@@ -77,7 +77,7 @@ pipeline {
         }
     }
 
-      post {
+      post{
         always {
             // Cleanup steps, if any
             sh 'echo "Always do cleanup actions here"'
