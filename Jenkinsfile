@@ -30,6 +30,7 @@ pipeline {
                 sh '''
                 zip -r dist-${BUILD_ID}.zip dist
                 '''
+                 sh 'rm -rf dist-${BUILD_ID}.zip'
             }
         }
    }
