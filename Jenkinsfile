@@ -4,9 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-repo/your-project.git'
-                GITHUB_USERNAME='your-username'
-                GITHUB_TOKEN='your-personal-access-token'
+                git 'https://github.com/yatheesh-k/java_sample.git'
+              
 
             }
         }
