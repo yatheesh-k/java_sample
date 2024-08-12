@@ -5,9 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git 'https://github.com/yatheesh-k/java_sample.git'
-              
-
-            }
+              }
         }
         stage('Build') {
             steps {
