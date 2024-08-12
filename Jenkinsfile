@@ -69,9 +69,9 @@ pipeline {
                     }
                    
                 }
-               
             }
         }
+}
 
      post {
         always {
@@ -85,4 +85,4 @@ pipeline {
             sh 'echo "pipeline failed"'
         }
     }
-}
+
