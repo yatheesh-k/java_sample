@@ -18,11 +18,13 @@ pipeline {
              }
          }
 
-        stage('mvn build') {
+        stage('Build') {
             steps {
-                sh 'mvn re-run build'
+                script {
+                    // Use a valid Maven goal
+                    sh 'mvn clean package'
+                }
             }
-        }
         
         stage('Test') {
             steps {
