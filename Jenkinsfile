@@ -23,9 +23,12 @@ pipeline {
          }
         
    
-        stage('mvn build') {
+       stage('Build') {
             steps {
-                sh 'mvn run build'
+                script {
+                    // Maven build with specific goals
+                    sh "${MAVEN_HOME}/bin/mvn clean install"
+                }
             }
         }
         stage('Zip Dist Directory') {
