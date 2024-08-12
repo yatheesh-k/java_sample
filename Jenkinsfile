@@ -5,8 +5,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 git 'https://github.com/your-repo/your-project.git'
-                user name yatheesh-k
-                password Yatheesh22@
+                GITHUB_USERNAME='your-username'
+                GITHUB_TOKEN='your-personal-access-token'
+
             }
         }
         stage('Build') {
