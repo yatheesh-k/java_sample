@@ -18,21 +18,20 @@ pipeline {
              }
          }
 
-        //stage('Build') {
-          //  steps {
-                    // Use a valid Maven goal
-            //        sh 'mvn clean package'
-       stage('Build') {
+        stage('Build') {
             steps {
-                dir("/var/lib/jenkins/workspace/demopipelinetask/my-app") {
-                sh 'mvn -B -DskipTests clean package'
+                     Use a valid Maven goal
+                  sh 'mvn clean package'
+      
                 }
             }
        
           stage('Zip Dist Directory') {
             steps {
                 sh '''
-                sh 'zip -r dist-${BUILD_ID}.zip dist'
+                // sh 'zip -r dist-${BUILD_ID}.zip dist'
+                  dir("/var/lib/jenkins/workspace/demopipelinetask/my-app") {
+                  sh 'mvn -B -DskipTests clean package'
                 '''
             }
         }
