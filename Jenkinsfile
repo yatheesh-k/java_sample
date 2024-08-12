@@ -20,7 +20,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                script {
                     // Use a valid Maven goal
                     sh 'mvn clean package'
                 }
