@@ -1,6 +1,3 @@
-
-
-
 pipeline {
     agent any
     environment {
@@ -49,35 +46,23 @@ pipeline {
                 }
             }
         }
-      stage('Upload Artifacts to Nexus') {
-    steps {
-        withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-            script {
-                def file = "dist-${env.BUILD_ID}.zip"
-                def filePath = "${JENKINS_HOME}/workspace/${JOB_NAME}/${file}"
-                
-                // Verify that the file exists
-                if (!fileExists(filePath)) {
-                    error "File ${file} does not exist."
-                }
-
-                // Upload the file using HTTP Request Plugin
-                def response = httpRequest(
-                    httpMode: 'PUT',
-                    acceptType: 'APPLICATION_JSON',
-                    contentType: 'APPLICATION_OCTETSTREAM',
-                    consoleLogResponseBody: true,
-                    url: "${env.NEXUS_URL}/${file}",
-                    authentication: env.NEXUS_CREDENTIALS_ID,
-                     requestBody: readFile(filePath)
-                         )
-
-                
-                        sh 'rm -rf dist-${BUILD_ID}.zip'
+    stage('Upload WAR to Nexus') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+                    script {
+                        def warFile = "build/libs/my-app-${env.BUILD_ID}.war" // Update path and filename
+                        def response = httpRequest(
+                            httpMode: 'PUT',
+                            acceptType: 'APPLICATION_JSON',
+                            contentType: 'APPLICATION_OCTETSTREAM',
+                            consoleLogResponseBody: true,
+                            url: "${env.NEXUS_URL}/${warFile}",
+                            authentication: env.NEXUS_CREDENTIALS_ID,
+                            requestBody: readFile(warFile)
+                        )
+                        echo "Response: ${response}"
                     }
-                   
                 }
-               
             }
         }
     }
