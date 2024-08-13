@@ -40,18 +40,9 @@ pipeline {
             environment {
               SCANNER_HOME = tool 'sonar-scanner'
             }
-           stage('SonarQube Analysis') {
             steps {
-                script {
-                    withSonarQubeEnv('SonarQube') {  // Make sure this matches the SonarQube server name in Jenkins configuration
-                        sh """
-                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
-                          -Dsonar.projectKey=java_project \
-                          -Dsonar.sources=src \
-                          -Dsonar.host.url=http://13.232.87.27:9000/ \
-                          -Dsonar.login=sqp_bddbc2147bd8de82a96ffed8ddc88a665eb3a699
-                        """
-                    }
+            withSonarQubeEnv('sonar') {
+                    sh "${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=java project -Dsonar.sources=src -Dsonar.host.url=http://13.232.87.27:9000/ -Dsonar.login=sqp_bddbc2147bd8de82a96ffed8ddc88a665eb3a699"
                 }
             }
         }
@@ -92,5 +83,4 @@ pipeline {
             sh 'echo "pipeline failed"'
         }
     }
-    }      
 }
