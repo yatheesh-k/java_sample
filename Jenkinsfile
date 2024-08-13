@@ -17,15 +17,15 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
-        // stage('Test') { 
-           // steps {
-             //   sh 'mvn test' 
+         stage('Test') { 
+            steps {
+               sh 'mvn test' 
             }
          }   
         stage('Package') {
             steps {
                 script {
-                    // Maven package with specific goals
+                     Maven package with specific goals
                     sh "${MAVEN_HOME}/bin/mvn package"
                 }
             }
