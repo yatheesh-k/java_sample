@@ -74,8 +74,6 @@ pipeline {
                      classifier: '',
                      file: 'target/vprofile-v2.war',
                      type: 'war']
-                   /// requestBody: readFile(filePath)
-              //  )
                 
                         sh 'rm -rf dist-${BUILD_ID}.zip'
                     }
