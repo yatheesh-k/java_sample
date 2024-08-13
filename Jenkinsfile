@@ -26,7 +26,7 @@ pipeline {
         stage('Zip Dist Directory') {
             steps {
                 sh '''
-                zip -r dist-${BUILD_ID}.zip dist
+                zip -r dist-${BUILD_ID}.zip -i dist
                 '''
             }
         }
