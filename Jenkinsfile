@@ -46,20 +46,28 @@ pipeline {
                 }
             }
         }
-        stage('Upload Artifacts to Nexus')   {
-            steps {
-                withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-                    script {
-                        def file = "dist-${env.BUILD_ID}.zip"
-                        // Upload the file using HTTP Request Plugin
-                        httpRequest(
-                            httpMode: 'PUT',
-                            acceptType: 'APPLICATION_JSON',
-                            contentType: 'APPLICATION_OCTETSTREAM',
-                            consoleLogResponseBody: true,
-                            url: "${env.NEXUS_URL}${file}",
-                            authentication: 'nexus',
-                            requestBody: readFile(file)
+      stage('Upload Artifacts to Nexus') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+            script {
+                def file = "dist-${env.BUILD_ID}.zip"
+                def filePath = "${JENKINS_HOME}/workspace/${JOB_NAME}/${file}"
+                
+                // Verify that the file exists
+                if (!fileExists(filePath)) {
+                    error "File ${file} does not exist."
+                }
+
+                // Upload the file using HTTP Request Plugin
+                def response = httpRequest(
+                    httpMode: 'PUT',
+                    acceptType: 'APPLICATION_JSON',
+                    contentType: 'APPLICATION_OCTETSTREAM',
+                    consoleLogResponseBody: true,
+                    url: "${env.NEXUS_URL}/${file}",
+                    authentication: env.NEXUS_CREDENTIALS_ID,
+                    requestBody: readFile(filePath)
+                )
                         )
                         sh 'rm -rf dist-${BUILD_ID}.zip'
                     }
