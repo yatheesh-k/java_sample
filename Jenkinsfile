@@ -12,7 +12,7 @@ pipeline {
             }
         }
    
-       stage('Build') { 
+       stage('Build WAR') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
             }
