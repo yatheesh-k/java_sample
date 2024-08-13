@@ -40,12 +40,32 @@ pipeline {
            environment {
         SONAR_SCANNER_HOME = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
     }
+           stages {
+        stage('Checkout') {
             steps {
-            withSonarQubeEnv('sonar') {
-                    sh "${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=java project -Dsonar.sources=src -Dsonar.host.url=http://13.232.87.27:9000/ -Dsonar.login=sqp_bddbc2147bd8de82a96ffed8ddc88a665eb3a699"
+                // Checkout your code
+                checkout scm
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Run sonar-scanner
+                    withSonarQubeEnv('SonarQube') {  // Use the SonarQube server configuration
+                        sh """
+                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                        -Dsonar.projectKey=java_project \
+                        -Dsonar.sources=src \
+                        -Dsonar.host.url=http://13.232.87.27:9000/ \
+                        -Dsonar.login=sqp_bddbc2147bd8de82a96ffed8ddc88a665eb3a699
+                        """
+                    }
                 }
             }
         }
+    }
+
         stage('Upload Artifacts to Nexus') {
             steps {
                 withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
