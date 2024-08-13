@@ -12,12 +12,9 @@ pipeline {
             }
         }
    
-       stage('Build') {
+       stage('Build') { 
             steps {
-                script {
-                    // Maven build with specific goals
-                    sh "${MAVEN_HOME}/bin/mvn clean install"
-                }
+                sh 'mvn -B -DskipTests clean package' 
             }
         }
         stage('Package') {
