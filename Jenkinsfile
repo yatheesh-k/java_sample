@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        NEXUS_URL = 'http://13.126.115.190:8081/repository/java project/'
+        NEXUS_URL = 'http://13.126.115.190:8081/repository/java-application-nexus/'
         NEXUS_CREDENTIALS_ID = 'nexus' // ID of the stored credentials in Jenkins
     }
     stages {
