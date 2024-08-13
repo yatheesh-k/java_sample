@@ -23,11 +23,17 @@ pipeline {
             }
          }   
         
-        stage('Zip Dist Directory') {
+       stage('Package') {
             steps {
-                sh '''
-                zip -r dist-${BUILD_ID}.zip -i dist
-                '''
+                script {
+                    // Package the build output
+                    // Example: create a zip archive
+                    sh '''
+                    mkdir -p output
+                    cp -r target/* output/  # Adjust according to build output
+                    zip -r output-${BUILD_ID}.zip output
+                    '''
+                }
             }
         }
         stage('SonarQube analysis') {
