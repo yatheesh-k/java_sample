@@ -37,9 +37,9 @@ pipeline {
             }
         }
         stage('SonarQube analysis') {
-            environment {
-              SCANNER_HOME = tool 'sonar-scanner'
-            }
+           environment {
+        SONAR_SCANNER_HOME = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+    }
             steps {
             withSonarQubeEnv('sonar') {
                     sh "${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=java project -Dsonar.sources=src -Dsonar.host.url=http://13.232.87.27:9000/ -Dsonar.login=sqp_bddbc2147bd8de82a96ffed8ddc88a665eb3a699"
