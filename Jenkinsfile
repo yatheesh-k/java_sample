@@ -68,7 +68,6 @@ pipeline {
                     authentication: env.NEXUS_CREDENTIALS_ID,
                     requestBody: readFile(filePath)
                 )
-                        )
                         sh 'rm -rf dist-${BUILD_ID}.zip'
                     }
                    
