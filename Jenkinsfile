@@ -82,7 +82,7 @@ pipeline {
     post {
         always {
             // cleanup steps, if any
-            sh 'echo "Always do cleanup actions here"'
+          //  sh 'echo "Always do cleanup actions here"'
         }
         success {
             sh 'echo "Pipeline succeeded"'
