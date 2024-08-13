@@ -46,7 +46,7 @@ pipeline {
                 }
             }
         }
-        stage('Upload Artifacts to Nexus') {
+        stage('Upload Artifacts to Nexus')   {
             steps {
                 withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
                     script {
