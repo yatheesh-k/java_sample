@@ -69,6 +69,11 @@ pipeline {
                     consoleLogResponseBody: true,
                     url: "${env.NEXUS_URL}/${file}",
                     authentication: env.NEXUS_CREDENTIALS_ID,
+                     artifacts: [
+                    [artifactId: 'vproapp',
+                     classifier: '',
+                     file: 'target/vprofile-v2.war',
+                     type: 'war']
                     requestBody: readFile(filePath)
                 )
                 
