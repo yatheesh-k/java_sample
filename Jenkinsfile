@@ -46,26 +46,26 @@ pipeline {
                 }
             }
         }
-   stage('Upload WAR to Nexus') {
+   stage ("Upload Artifact") {
             steps {
-                script {
-                    def warFilePath = 'build/libs/*.war'
-                    def nexusUploadUrl = "${env.NEXUS_URL}/repository/${env.NEXUS_REPO}build/libs/*.war
-                    
-                    // Upload the WAR file
-                    httpRequest(
-                        url: nexusUploadUrl,
-                        httpMode: 'PUT',
-                        authentication: env.NEXUS_CREDENTIALS_ID,
-                        contentType: 'APPLICATION_OCTETSTREAM',
-                        requestBody:readFile(warFilePath)
-                        )
-                        echo "Response: ${response}"
-                    }
-                }
+                nexusArtifactUploader(
+                  nexusVersion: '0.0.0.0.',
+                  protocol: 'http',
+                  nexusUrl: "${NEXUS_IP}:${NEXUS_PORT}",
+                  groupId: 'QA',
+                  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                  repository: "${RELEASE_REPO}",
+                  credentialsId: "${NEXUS_LOGIN}",
+                  artifacts: [
+                    [artifactId: 'vproapp',
+                     classifier: '',
+                     file: 'target/vprofile-v2.war',
+                     type: 'war']
+                  ]
+                )
             }
         }
-    
+    }
 
 
     post {
