@@ -50,7 +50,7 @@ pipeline {
             steps {
                 script {
                     def warFilePath = 'build/libs/*.war'
-                    def nexusUploadUrl = "${env.NEXUS_URL}/repository/${env.NEXUS_REPO}'build/libs/*.war'
+                    def nexusUploadUrl = "${env.NEXUS_URL}/repository/${env.NEXUS_REPO}/'build/libs/*.war'
                     
                     // Upload the WAR file
                     httpRequest(
