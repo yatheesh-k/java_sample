@@ -58,7 +58,7 @@ pipeline {
                   artifacts: [
                     [artifactId: 'java-application-nexus',
                      classifier: '',
-                     file: 'target/http://3.110.190.129:8080/',
+                     file: 'target/practise1.war',
                      type: 'war']
                   ]
                 )
