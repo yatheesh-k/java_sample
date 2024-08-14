@@ -59,7 +59,7 @@ pipeline {
                         authentication: env.NEXUS_CREDENTIALS_ID,
                         contentType: 'APPLICATION_OCTETSTREAM',
                         requestBody: readFile(warFilePath)
-                        
+                        )
                         echo "Response: ${response}"
                     }
                 }
