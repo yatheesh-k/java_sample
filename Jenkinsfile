@@ -46,20 +46,19 @@ pipeline {
                 }
             }
         }
-    stage('Upload WAR to Nexus') {
+   stage('Upload WAR to Nexus') {
             steps {
-                withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-                    script {
-                        def warFile = "build/libs/my-app-${env.BUILD_ID}.war" // Update path and filename
-                        def response = httpRequest(
-                            httpMode: 'PUT',
-                            acceptType: 'APPLICATION_JSON',
-                            contentType: 'APPLICATION_OCTETSTREAM',
-                            consoleLogResponseBody: true,
-                            url: "${env.NEXUS_URL}/${warFile}",
-                            authentication: env.NEXUS_CREDENTIALS_ID,
-                            requestBody: readFile(warFile)
-                        )
+                script {
+                    def warFilePath = 'build/libs/my-app-106.war'
+                    def nexusUploadUrl = "${env.NEXUS_URL}/repository/${env.NEXUS_REPO}/my-app-106.war"
+                    
+                    // Upload the WAR file
+                    httpRequest(
+                        url: nexusUploadUrl,
+                        httpMode: 'PUT',
+                        authentication: env.NEXUS_CREDENTIALS_ID,
+                        contentType: 'APPLICATION_OCTETSTREAM',
+                        requestBody: readFile(warFilePath)
                         
                         echo "Response: ${response}"
                     }
