@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        NEXUS_URL = 'http://65.0.100.105:8081/repository/java-application-nexus/'
+        NEXUS_URL = 'http://13.235.245.152:8081/repository/java-application-nexus/'
         NEXUS_CREDENTIALS_ID = 'nexus' // ID of the stored credentials in Jenkins
     }
     stages {
@@ -50,7 +50,7 @@ pipeline {
             steps {
                 script {
                     def warFilePath = 'build/libs/*.war'
-                    def nexusUploadUrl = "${env.NEXUS_URL}/repository/${env.NEXUS_REPO}/my-app-106.war"
+                    def nexusUploadUrl = "${env.NEXUS_URL}/repository/${env.NEXUS_REPO}'build/libs/*.war'
                     
                     // Upload the WAR file
                     httpRequest(
