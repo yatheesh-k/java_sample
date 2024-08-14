@@ -54,10 +54,10 @@ pipeline {
                   nexusUrl: "${NEXUS_IP}:${NEXUS_PORT}",
                   groupId: 'QA',
                   version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                  repository: "${RELEASE_REPO}",
+                  repository: "${java-application-nexus}",
                   credentialsId: "${NEXUS_LOGIN}",
                   artifacts: [
-                    [artifactId: 'vproapp',
+                    [artifactId: 'java-application-nexus',
                      classifier: '',
                      file: 'target/vprofile-v2.war',
                      type: 'war']
