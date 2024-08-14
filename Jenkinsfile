@@ -49,17 +49,16 @@ pipeline {
    stage ("Upload Artifact") {
             steps {
                 nexusArtifactUploader(
-                  nexusVersion: '0.0.0.0.',
+                  nexusVersion: '0.0.0.0',
                   protocol: 'http',
                   nexusUrl: "${NEXUS_IP}:${NEXUS_PORT}",
-                  groupId: 'QA',
                   version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
                   repository: "${java-application-nexus}",
                   credentialsId: "${NEXUS_LOGIN}",
                   artifacts: [
                     [artifactId: 'java-application-nexus',
                      classifier: '',
-                     file: 'target/vprofile-v2.war',
+                     file: 'target/http://3.110.190.129:8080/',
                      type: 'war']
                   ]
                 )
