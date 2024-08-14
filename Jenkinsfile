@@ -58,7 +58,7 @@ pipeline {
                         httpMode: 'PUT',
                         authentication: env.NEXUS_CREDENTIALS_ID,
                         contentType: 'APPLICATION_OCTETSTREAM',
-                        requestBody: readFile(warFilePath)build/libs/*.war
+                        requestBody: readFile(build/libs/*.war)
                         )
                         echo "Response: ${response}"
                     }
