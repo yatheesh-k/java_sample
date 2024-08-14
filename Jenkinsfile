@@ -60,6 +60,7 @@ pipeline {
                             authentication: env.NEXUS_CREDENTIALS_ID,
                             requestBody: readFile(warFile)
                         )
+                        
                         echo "Response: ${response}"
                     }
                 }
