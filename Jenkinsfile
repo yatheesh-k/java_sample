@@ -49,7 +49,7 @@ pipeline {
    stage('Upload WAR to Nexus') {
             steps {
                 script {
-                    def warFilePath = 'build/libs/my-app-106.war'
+                    def warFilePath = 'build/libs/*.war'
                     def nexusUploadUrl = "${env.NEXUS_URL}/repository/${env.NEXUS_REPO}/my-app-106.war"
                     
                     // Upload the WAR file
@@ -58,7 +58,7 @@ pipeline {
                         httpMode: 'PUT',
                         authentication: env.NEXUS_CREDENTIALS_ID,
                         contentType: 'APPLICATION_OCTETSTREAM',
-                        requestBody: (readFile)build/libs/*.war
+                        requestBody:readFile(warFilePath)
                         )
                         echo "Response: ${response}"
                     }
