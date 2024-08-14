@@ -42,7 +42,7 @@ pipeline {
             }
             steps {
             withSonarQubeEnv('sonar') {
-                    sh "${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=java_project -Dsonar.sources=src -Dsonar.host.url=http://13.234.110.246:9000/ -Dsonar.login=sqp_0d85a730478faecb9fe4d2aa1c54f4922d01b23a"
+                    sh "${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=java_project -Dsonar.sources=src -Dsonar.host.url=http://13.234.59.209:9000/ -Dsonar.login=sqp_0d85a730478faecb9fe4d2aa1c54f4922d01b23a"
                 }
             }
         }
